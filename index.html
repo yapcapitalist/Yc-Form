@@ -381,7 +381,7 @@
 
             emailjs.send("service_q0wuesq", "template_g1wxjuj", emailData)
                 .then(() => {
-                    showPopup("✅ Thank you! Form submitted & email sent!", "success");
+                    showPopup("✅ Thank you! Your form has been submitted and the email has been sent. You'll receive your book within the next 2 to 5 minutes.", "success");
                 })
                 .catch(() => {
                     showPopup("❌ Form submitted, but email failed.", "error");
