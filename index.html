@@ -333,40 +333,54 @@
 
 
     <script>
-        const formEnterprise = async () => {
-                document.getElementById("loader").classList.remove("hidden");
-
-            var raw = JSON.stringify({
-                "firstName": document.querySelector('.enterprises-contact-inner-wrap #name').value,
-                "email": document.querySelector('.enterprises-contact-inner-wrap #email').value,
-                "message": document.querySelector('.enterprises-contact-inner-wrap #message').value,
-                "company": document.querySelector('.enterprises-contact-inner-wrap #company').value,
-                "jobTitle": document.querySelector('.enterprises-contact-inner-wrap #jobTitle').value,
-                "consent": document.querySelector('.enterprises-contact-inner-wrap #consent').checked
-            });
-
-            var requestOptions = {
-                method: 'POST',
-                body: raw,
-                redirect: 'follow'
+        const formEnterprise = () => {
+            const formData = {
+                firstName: document.querySelector("#name").value,
+                email: document.querySelector("#email").value,
+                message: document.querySelector("#message").value,
+                company: document.querySelector("#company").value,
+                jobTitle: document.querySelector("#jobTitle").value,
+                consent: document.querySelector("#consent").checked,
             };
 
-            fetch("https://script.google.com/macros/s/AKfycbxPtV4PBfzQQNUpLPGU9cfjvAG2hvRhsf8Lc5nsWW57kTMSa_ZRtisuHDHlevdCuRca6Q/exec?action=done", requestOptions)
+            document.getElementById("loader").classList.remove("hidden");
+
+            // 🔁 1. Send to Google Sheet
+            fetch("https://script.google.com/macros/s/AKfycbylgr4S4vxBRVwkCkzLuIaGmrMA1OwPKGYdGbuw-9rBefmWi9Wngk8BIqe9TFG7xaQMEg/exec?action=done", {
+                method: "POST",
+                body: JSON.stringify(formData),
+                redirect: "follow"
+            })
                 .then(response => response.text())
                 .then(result => {
-                    console.log(result);
-                    showPopup("✅ Thank you! Your form has been submitted successfully.", "success");
+                    console.log("Sheet Success:", result);
                 })
                 .catch(error => {
-                    console.error('error', error);
-                    showPopup("❌ Something went wrong. Please try again.", "error");
-                })
-                .finally(() => {
-                    // Hide loader after everything completes
-                    document.getElementById("loader").classList.add("hidden");
+                    console.error("Sheet Error:", error);
                 });
 
-        }
+            // 📩 2. Send email via EmailJS
+            const emailData = {
+                from_name: formData.firstName,
+                user_email: formData.email,
+                user_phone: formData.message,
+                company: formData.company,
+                jobTitle: formData.jobTitle,
+                message: "Form submitted via YC site",
+            };
+
+            emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", emailData)
+                .then(() => {
+                    showPopup("✅ Thank you! Form submitted & email sent!", "success");
+                })
+                .catch(() => {
+                    showPopup("❌ Form submitted, but email failed.", "error");
+                })
+                .finally(() => {
+                    document.getElementById("loader").classList.add("hidden");
+                });
+        };
+
 
         function showPopup(message, type) {
             const popup = document.getElementById('popup');
