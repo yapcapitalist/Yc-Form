@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #000;
+            color: #ddd;
+        }
+
+        h1 {
+            font-size: 4rem;
+            margin: 0;
+        }
+
+        .ycform {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 2rem;
+            gap: 8rem;
+            background-color: #000;
+            max-width: 1400px;
+            margin: 0 auto;
+            align-items: flex-start;
+        }
+
+        .ycform .left img {
+            width: 100%;
+            max-width: 300px;
+            border-radius: 10px;
+        }
+
+        .enterprises-contact-inner-wrap {
+            flex: 1;
+        }
+
+        .enterprises-contact-inner-wrap h2 {
+            color: #facc15;
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .form-group>div {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        label {
+            color: #facc15;
+            display: block;
+            margin-bottom: 0.4rem;
+            font-weight: 500;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"] {
+            width: -webkit-fill-available;
+            padding: 0.6rem;
+            border: 1px solid #333;
+            border-radius: 5px;
+            background-color: #1e1e1e;
+            color: #ddd;
+        }
+
+        input::placeholder {
+            color: #999;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-size: 0.9rem;
+        }
+
+        .checkbox-group label {
+            margin: 0;
+            color: #ddd;
+        }
+
+        button[type="submit"] {
+            width: 20%;
+            background-color: #facc15;
+            color: #121212;
+            border: none;
+            padding: 0.8rem 1.6rem;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #e0b60f;
+        }
+
+        .site-header {
+            background-color: #000;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: center;
+            /* border-bottom: 1px solid #333; */
+        }
+
+        .site-header .container {
+            width: 100%;
+            max-width: 1000px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .logo {
+            height: 40px;
+        }
+
+        .download-btn {
+            background-color: #facc15;
+            color: #121212;
+            text-decoration: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        .download-btn:hover {
+            background-color: #e0b60f;
+        }
+
+        .desk {
+            display: block;
+        }
+
+        .mobi {
+            display: none
+        }
+
+        /* Loader Overlay */
+        .loader-overlay {
+            position: fixed;
+            inset: 0;
+            background-color: rgba(0, 0, 0, 0.6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+        }
+
+        .loader-overlay .spinner {
+            border: 5px solid #333;
+            border-top: 5px solid #facc15;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        /* Centered Popup */
+        .popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.95);
+            background-color: #1e1e1e;
+            color: #fff;
+            padding: 1.5rem 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 30px rgba(0, 0, 0, 0.6);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            z-index: 9999;
+        }
+
+        .popup.show {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+            pointer-events: auto;
+        }
+
+        .popup.success {
+            border-left: 5px solid #4ade80;
+        }
+
+        .popup.error {
+            border-left: 5px solid #f87171;
+        }
+
+
+
+
+        @media (max-width: 768px) {
+            .desk {
+                display: none;
+            }
+
+            .mobi {
+                display: block
+            }
+
+            .ycform {
+                flex-direction: column;
+                align-items: center;
+                gap: 2rem;
+            }
+
+            button[type="submit"] {
+                width: 100%;
+            }
+
+            .form-group {
+                flex-direction: column;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+    <section>
+        <header class="site-header">
+            <div class="container">
+                <!-- <svg xmlns="http://www.w3.org/2000/svg" width="80px" viewBox="0 0 38 24.509" xml:space="preserve"
+                height="60px">
+                <path fill="#e0b400"
+                    d="M21.811 24.621H.112V.112h38v24.509zm5.885-5.421c2.842-.263 5.725-1.997 5.879-3.556-.47 0-.938-.018-1.404.01-.163.01-.367.089-.47.208-1.358 1.573-3.059 2.242-5.109 1.897-3.263-.548-5.044-3.885-3.765-6.68 1.458-3.187 5.794-3.949 8.395-1.488.158.149.339.36.524.377.564.05 1.135.018 1.772.018-.1-.165-.142-.247-.195-.319C30.857 6.279 25.8 5.78 22.706 8.619c-2.399 2.201-2.65 5.623-.56 8.124 1.41 1.687 3.284 2.41 5.551 2.457m-10.969-7.363 3.458-4.849c-.446 0-.764.029-1.075-.006-.535-.06-.875.118-1.192.587-1.038 1.532-2.139 3.022-3.233 4.553-.123-.157-.228-.284-.324-.418-1.176-1.644-2.333-3.301-3.531-4.928-.816-1.108-1.723-2.137-3.125-2.527-1.684-.469-3.191-.097-4.603.969l1.043.995c1.807-1.211 3.295-1.043 4.74.509.216.232.415.484.6.741 1.403 1.942 2.807 3.882 4.189 5.839.158.224.248.543.253.82.025 1.404.011 2.809.011 4.214v.622h1.471c0-1.054.082-2.074-.019-3.074-.156-1.542.192-2.87 1.337-4.046" />
+                <path fill="#050401"
+                    d="M27.644 19.202c-2.215-.049-4.089-.772-5.499-2.459-2.091-2.501-1.839-5.923.56-8.124 3.094-2.839 8.152-2.34 10.617 1.048.053.073.094.154.195.319-.637 0-1.208.032-1.772-.018-.185-.016-.367-.227-.524-.377-2.601-2.461-6.937-1.699-8.395 1.488-1.279 2.796.503 6.132 3.765 6.68 2.05.344 3.751-.325 5.109-1.897.103-.119.307-.199.47-.208.466-.028.935-.01 1.404-.01-.154 1.559-3.037 3.292-5.93 3.558" />
+                <path fill="#030301"
+                    d="M16.701 11.869c-1.12 1.144-1.468 2.473-1.312 4.014.101 1.001.019 2.02.019 3.074h-1.471v-.622c0-1.405.013-2.81-.012-4.214a1.55 1.55 0 0 0-.253-.82c-1.382-1.957-2.786-3.897-4.188-5.839a8 8 0 0 0-.6-.741c-1.445-1.551-2.933-1.72-4.74-.509l-1.043-.995c1.412-1.066 2.92-1.437 4.603-.969 1.402.39 2.309 1.419 3.125 2.527 1.198 1.627 2.355 3.285 3.531 4.928.096.134.201.26.324.418 1.094-1.531 2.195-3.021 3.233-4.553.318-.469.657-.647 1.192-.587.311.035.629.006 1.075.006-1.192 1.671-2.325 3.26-3.483 4.881" />
+            </svg> -->
+                <h1 class="desk">Yap Capitalist</h1>
+                <h1 class="mobi">YC</h1>
+                <!-- <a href="https://gogrowth.in/" class="download-btn">Go Growth</a> -->
+                <!-- add insta logo -->
+            </div>
+        </header>
+        <div class="ycform">
+            <div class="left">
+                <img src="bookcover.png" alt="Guide Cover" />
+            </div>
+
+            <div class="enterprises-contact-inner-wrap">
+                <h2>
+                    <span style="color: #fff;">Get My 800 Rs. Book For Free</span>
+                    <!-- <span style="color: #fff;"> Assertiveness Guide</span> -->
+                </h2>
+                <p>This Book is dedicated to the comunication masters of tomorrow</p>
+                <form onsubmit="event.preventDefault(); formEnterprise();">
+                    <div class="form-group">
+                        <div>
+                            <label for="name">Name <span style="color: #fff;">*</span></label>
+                            <input type="text" id="name" name="name" required placeholder="Enter your name" />
+                        </div>
+                        <div>
+                            <label for="phone">Phone <span style="color: #fff;">*</span></label>
+                            <input type="tel" id="message" name="phone" required
+                                placeholder="Enter your phone number" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div>
+                            <label for="email">Email <span style="color: #fff;">*</span></label>
+                            <input type="email" id="email" name="email" required placeholder="Enter your email" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div>
+                            <label for="company">City <span style="color: #fff;">*</span></label>
+                            <input type="text" id="company" name="company" required
+                                placeholder="Enter your city name" />
+                        </div>
+                        <div>
+                            <label for="jobTitle">Age <span style="color: #fff;">*</span></label>
+                            <input type="text" id="jobTitle" name="jobTitle" required placeholder="Your age" />
+                        </div>
+                    </div>
+
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="consent" name="consent" required />
+                        <label for="consent">I agree to receive the book on my email. We respect your privacy.</label>
+                    </div>
+
+                    <button type="submit">Submit</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Loader -->
+    <div id="loader" class="loader-overlay hidden">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Popup -->
+    <div id="popup" class="popup hidden">
+        <div class="popup-content" id="popup-message"></div>
+    </div>
+
+
+
+    <script>
+        const formEnterprise = async () => {
+                document.getElementById("loader").classList.remove("hidden");
+
+            var raw = JSON.stringify({
+                "firstName": document.querySelector('.enterprises-contact-inner-wrap #name').value,
+                "email": document.querySelector('.enterprises-contact-inner-wrap #email').value,
+                "message": document.querySelector('.enterprises-contact-inner-wrap #message').value,
+                "company": document.querySelector('.enterprises-contact-inner-wrap #company').value,
+                "jobTitle": document.querySelector('.enterprises-contact-inner-wrap #jobTitle').value,
+                "consent": document.querySelector('.enterprises-contact-inner-wrap #consent').checked
+            });
+
+            var requestOptions = {
+                method: 'POST',
+                body: raw,
+                redirect: 'follow'
+            };
+
+            fetch("https://script.google.com/macros/s/AKfycbzJbyAR0JQkHGyosyld9pQxVrIrcpuQzUik-8U9cDMKKOoKaNc2WrXSU1-1gQNiQXA5Iw/exec?action=done", requestOptions)
+                .then(response => response.text())
+                .then(result => {
+                    console.log(result);
+                    showPopup("✅ Thank you! Your form has been submitted successfully.", "success");
+                })
+                .catch(error => {
+                    console.error('error', error);
+                    showPopup("❌ Something went wrong. Please try again.", "error");
+                })
+                .finally(() => {
+                    // Hide loader after everything completes
+                    document.getElementById("loader").classList.add("hidden");
+                });
+
+        }
+
+        function showPopup(message, type) {
+            const popup = document.getElementById('popup');
+            const content = document.getElementById('popup-message');
+
+            popup.classList.remove('hidden', 'success', 'error');
+            popup.classList.add('show', type);
+            content.textContent = message;
+
+            // Hide popup after 3s and reset form
+            setTimeout(() => {
+                popup.classList.remove('show');
+                popup.classList.add('hidden');
+
+                // Reset form
+                document.querySelector('.enterprises-contact-inner-wrap form').reset();
+            }, 3000);
+        }
+    </script>
+</body>
+
+</html>
