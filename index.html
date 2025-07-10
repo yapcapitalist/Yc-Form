@@ -228,7 +228,18 @@
             border-left: 5px solid #f87171;
         }
 
+        .close {
+            color: #facc15;
+            font-size: 16px;
+            position: absolute;
+            top: 5px;
+            right: 18px;
+        }
 
+        div#popup-message {
+            font-size: 14px;
+            line-height: 1.4;
+        }
 
 
         @media (max-width: 768px) {
@@ -339,6 +350,7 @@
 
     <!-- Popup -->
     <div id="popup" class="popup hidden">
+        <span id="clspup" class="close" onclick="closePopup()">✖</span>
         <div class="popup-content" id="popup-message"></div>
     </div>
 
@@ -383,10 +395,10 @@
 
             emailjs.send("service_q0wuesq", "template_g1wxjuj", emailData)
                 .then(() => {
-                    showPopup("✅ Please check your promotion and spam folder and move the email to primary inbox. You'll receive your book within the next 2 to 5 minutes.", "success");
+                    showPopup("Please check your promotion and spam folder and move the email to primary inbox. You'll receive your book within the next 2 to 5 minutes.", "success");
                 })
                 .catch(() => {
-                    showPopup("❌ Form submitted, but email failed.", "error");
+                    showPopup("Form submitted, but email failed.", "error");
                 })
                 .finally(() => {
                     document.getElementById("loader").classList.add("hidden");
@@ -402,15 +414,14 @@
             popup.classList.add('show', type);
             content.textContent = message;
 
-            // Hide popup after 3s and reset form
-            setTimeout(() => {
-                popup.classList.remove('show');
-                popup.classList.add('hidden');
+        }
 
-                // Reset form
-                window.location.href = "https://www.instagram.com/gurmeet__oberoi?igsh=eG5zOWs3ZmI2eTVq"; // replace with your handle
-                document.querySelector('.enterprises-contact-inner-wrap form').reset();
-            }, 4000);
+        function closePopup() {
+            const popup = document.getElementById('clspup');
+            document.getElementById('popup').classList.remove('show');
+            document.getElementById('popup').classList.add('hidden');
+            document.querySelector('.enterprises-contact-inner-wrap form').reset();
+            window.location.href = "https://www.instagram.com/gurmeet__oberoi?igsh=eG5zOWs3ZmI2eTVq";
         }
     </script>
 </body>
