@@ -4,6 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+
+<!-- ✅ Initialize with your PUBLIC KEY -->
+<script>
+  (function () {
+    emailjs.init("0JqlPgikGhhqhh965"); // 🔁 Replace with your actual public key from EmailJS dashboard
+  })();
+</script>
     <title>Document</title>
     <style>
         body {
@@ -369,7 +377,7 @@
                 message: "Form submitted via YC site",
             };
 
-            emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", emailData)
+            emailjs.send("service_q0wuesq", "template_gj22ix9", emailData)
                 .then(() => {
                     showPopup("✅ Thank you! Form submitted & email sent!", "success");
                 })
