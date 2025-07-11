@@ -196,19 +196,37 @@
             display: none;
         }
 
+
+        .popup-overlay {
+            position: fixed;
+            inset: 0;
+            background-color: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(5px);
+            z-index: 999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .popup-overlay.hidden {
+            display: none;
+        }
+
+
         /* Centered Popup */
         .popup {
             position: fixed;
             top: 50%;
-            width: 68%;
+            cursor: pointer;
+            width: auto;
             left: 50%;
             transform: translate(-50%, -50%) scale(0.95);
             background-color: #1e1e1e;
             color: #fff;
-            padding: 1.5rem 2rem;
+            padding: 2.8rem 4rem;
             border-radius: 10px;
             box-shadow: 0 5px 30px rgba(0, 0, 0, 0.6);
-            opacity: 0;
+            /* opacity: 0; */
             pointer-events: none;
             transition: opacity 0.3s ease, transform 0.3s ease;
             z-index: 9999;
@@ -229,15 +247,22 @@
         }
 
         .close {
-            color: #facc15;
-            font-size: 16px;
+            background: #facc15;
+            color: #000;
+            font-weight: 800;
+            border-radius: 50px;
+            width: 38px;
+            height: 36px;
+            text-align: center;
+            top: 12px;
+            right: 12px;
+            font-size: 22px;
+            padding-top: 1px;
             position: absolute;
-            top: 5px;
-            right: 18px;
         }
 
         div#popup-message {
-            font-size: 14px;
+            font-size: 22px;
             line-height: 1.4;
         }
 
@@ -263,6 +288,39 @@
 
             .form-group {
                 flex-direction: column;
+            }
+
+            div#popup-message {
+                font-size: 14px;
+            }
+
+            .close {
+                background: #facc15;
+                color: #000;
+                font-weight: 800;
+                border-radius: 50px;
+                width: 28px;
+                height: 26px;
+                text-align: center;
+                top: 8px;
+                right: 8px;
+                font-size: 16px;
+                padding-top: 2px;
+                position: absolute;
+            }
+
+            .popup {
+                padding: 2rem;
+                width: 60%;
+                ;
+            }
+
+            .enterprises-contact-inner-wrap h2 {
+                font-size: 1.5rem;
+            }
+
+            .enterprises-contact-inner-wrap p {
+                font-size: 0.9rem;
             }
         }
     </style>
@@ -349,9 +407,11 @@
     </div>
 
     <!-- Popup -->
-    <div id="popup" class="popup hidden">
-        <span id="clspup" class="close" onclick="closePopup()">✖</span>
-        <div class="popup-content" id="popup-message"></div>
+    <div id="popup-overlay" class="popup-overlay hidden">
+        <div id="popup" class="popup">
+            <span id="clspup" class="close" onclick="closePopup()">✖</span>
+            <div class="popup-content" id="popup-message"></div>
+        </div>
     </div>
 
 
@@ -407,19 +467,18 @@
 
 
         function showPopup(message, type) {
-            const popup = document.getElementById('popup');
+            const popupOverlay = document.getElementById('popup-overlay');
             const content = document.getElementById('popup-message');
 
-            popup.classList.remove('hidden', 'success', 'error');
-            popup.classList.add('show', type);
+            popupOverlay.classList.remove('hidden');
             content.textContent = message;
-
         }
 
         function closePopup() {
-            const popup = document.getElementById('clspup');
-            document.getElementById('popup').classList.remove('show');
-            document.getElementById('popup').classList.add('hidden');
+            const popupOverlay = document.getElementById('popup-overlay');
+            popupOverlay.classList.add('hidden');
+
+            // Reset form and redirect
             document.querySelector('.enterprises-contact-inner-wrap form').reset();
             window.location.href = "https://www.instagram.com/gurmeet__oberoi?igsh=eG5zOWs3ZmI2eTVq";
         }
