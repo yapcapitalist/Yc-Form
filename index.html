@@ -424,7 +424,7 @@
             document.getElementById("loader").classList.remove("hidden");
 
             // 🔁 1. Send to Google Sheet
-            fetch("https://script.google.com/macros/s/AKfycbylgr4S4vxBRVwkCkzLuIaGmrMA1OwPKGYdGbuw-9rBefmWi9Wngk8BIqe9TFG7xaQMEg/exec?action=done", {
+            fetch("https://script.google.com/macros/s/AKfycbzriRG_RejsDPYyh55nn-SjlXE31PWOw8EarFwGGy7kyvk9SCYHRO9g4gaA9zyFG9rFsA/exec?action=done", {
                 method: "POST",
                 body: JSON.stringify(formData),
                 redirect: "follow"
